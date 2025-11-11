@@ -1,36 +1,176 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📄 PDF Insight - Sistema de Extração Inteligente de Dados em PDF
 
-## Getting Started
+Sistema web desenvolvido com Next.js 15 para extração inteligente de dados de arquivos PDF usando IA.
 
-First, run the development server:
+## 🎨 Design
+
+Interface clean e moderna com:
+
+- **Glassmorphism effect** (glass UI)
+- Design inspirado em produtos Apple
+- Animações suaves e transições elegantes
+- Cores neutras com gradientes sutis
+
+## 🚀 Tecnologias
+
+- **Framework**: Next.js 15 (App Router)
+- **UI**: shadcn/ui + Tailwind CSS v4
+- **Autenticação**: Better Auth
+- **ORM**: Drizzle ORM
+- **Database**: PostgreSQL
+- **Ícones**: Lucide React
+- **Notificações**: Sonner
+
+## 📦 Estrutura do Projeto
+
+```
+src/
+├── app/                    # App Router (páginas e API routes)
+│   ├── api/
+│   │   └── auth/          # Better Auth endpoints
+│   ├── auth/              # Página de login/registro
+│   ├── dashboard/         # Dashboard principal
+│   ├── layout.tsx         # Layout raiz
+│   └── page.tsx           # Landing page
+├── components/
+│   ├── ui/                # Componentes base do shadcn/ui
+│   └── features/          # Componentes de features
+│       ├── auth/          # Componentes de autenticação
+│       └── pdf/           # Componentes relacionados a PDF
+├── db/                    # Configuração do banco de dados
+│   ├── connection.ts      # Conexão Drizzle
+│   ├── seed.ts            # Seeds do banco
+│   └── schemas/           # Schemas Drizzle
+│       ├── index.ts
+│       └── user.ts        # Schema de usuários e auth
+├── lib/                   # Utilitários e configurações
+│   ├── auth.ts            # Configuração Better Auth (server)
+│   ├── auth-client.ts     # Cliente Better Auth (client)
+│   └── utils.ts           # Funções utilitárias
+├── hooks/                 # Custom React hooks
+│   └── use-auth.ts        # Hook de autenticação
+├── types/                 # TypeScript types
+│   ├── auth.ts            # Types de autenticação
+│   └── pdf.ts             # Types de PDF
+├── actions/               # Server actions
+└── env.ts                 # Validação de variáveis de ambiente
+```
+
+## 🔧 Instalação
+
+1. Clone o repositório
+
+2. Instale as dependências:
+
+```bash
+npm install
+```
+
+3. Configure as variáveis de ambiente:
+
+```bash
+cp .env.example .env
+```
+
+Edite o arquivo `.env` com suas configurações:
+
+- `DATABASE_URL`: String de conexão PostgreSQL
+- `BETTER_AUTH_SECRET`: Segredo para Better Auth (gere com `openssl rand -base64 32`)
+- `JWT_SECRET`: Segredo para JWT (gere com `openssl rand -base64 32`)
+
+4. Execute as migrations do banco:
+
+```bash
+npm run db:push
+```
+
+5. Inicie o servidor de desenvolvimento:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🗃️ Banco de Dados
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Schemas
 
-## Learn More
+O projeto usa as seguintes tabelas (Better Auth):
 
-To learn more about Next.js, take a look at the following resources:
+- **user**: Dados dos usuários (id, name, email, etc.)
+- **session**: Sessões ativas
+- **account**: Contas e credenciais
+- **verification**: Tokens de verificação
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Comandos úteis
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# Push schema changes
+npm run db:push
 
-## Deploy on Vercel
+# Generate migrations
+npm run db:generate
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Run migrations
+npm run db:migrate
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Open Drizzle Studio
+npm run db:studio
+```
+
+## 🔐 Autenticação
+
+O sistema usa **Better Auth** com:
+
+- Registro com email, nome e senha
+- Login com email e senha
+- Sessões seguras com cookies
+- Proteção de rotas com middleware
+
+### Rotas de autenticação
+
+- `/auth` - Login/Registro
+- `/dashboard` - Dashboard protegido (requer autenticação)
+
+## 🎨 Componentes UI
+
+Componentes shadcn/ui instalados:
+
+- Button
+- Input
+- Card
+- Label
+- Form
+- Sonner (Toast notifications)
+- Dropdown Menu
+- Avatar
+
+### Classes utilitárias personalizadas
+
+```css
+.glass          /* Glassmorphism básico */
+/* Glassmorphism básico */
+.glass-light    /* Glass com fundo claro */
+.glass-dark     /* Glass com fundo escuro */
+.text-gradient  /* Texto com gradiente */
+.shimmer; /* Efeito shimmer animado */
+```
+
+## 📝 Próximos Passos
+
+- [ ] Implementar upload de PDF
+- [ ] Integrar API de IA (Gemini/OpenAI)
+- [ ] Criar parser de PDF
+- [ ] Implementar extração de dados
+- [ ] Gerar PDF com resultados
+- [ ] Adicionar histórico de extrações
+- [ ] Implementar armazenamento de arquivos
+
+## 📄 Licença
+
+MIT
+
+---
+
+Desenvolvido com ❤️ usando Next.js e shadcn/ui
