@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Eye, EyeClosed, Loader2 } from "lucide-react";
 import type { SignInData, SignUpData } from "@/types/auth";
 
 export function AuthForm() {
@@ -18,7 +18,7 @@ export function AuthForm() {
     email: "",
     password: "",
   });
-
+  const [showPass, setShowPass] = useState(false);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -61,7 +61,7 @@ export function AuthForm() {
   };
 
   return (
-    <Card className="glass-light border-white/30 shadow-2xl w-full max-w-md">
+    <Card className="glass-light border-white/30 shadow-2xl w-full max-w-2xl">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold text-center">
           {isLogin ? "Bem-vindo de volta" : "Criar conta"}
@@ -102,21 +102,32 @@ export function AuthForm() {
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 ">
             <Label htmlFor="password">Senha</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              required
-              disabled={isLoading}
-              className="glass border-white/20 focus:border-white/40"
-            />
+            <div className="relative flex items-center justify-center">
+              <Input
+                id="password"
+                type={showPass ? "text" : "password"}
+                placeholder="••••••••"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                required
+                disabled={isLoading}
+                className="glass border-white/20 focus:border-white/40"
+              />
+              <Button
+                variant={"ghost"}
+                size={"icon"}
+                type="button"
+                className="absolute right-5"
+                onClick={() => setShowPass(!showPass)}
+              >
+                {showPass ? <Eye size={20} /> : <EyeClosed size={20} />}
+              </Button>
+            </div>
           </div>
 
-          <Button type="submit" className="w-full glass-dark hover:bg-white/20 transition-all" disabled={isLoading}>
+          <Button type="submit" className="w-full bg-purple-900 hover:bg-black/60 transition-all" disabled={isLoading}>
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -129,17 +140,17 @@ export function AuthForm() {
         </form>
 
         <div className="mt-4 text-center text-sm">
-          <button
+          <Button
             type="button"
             onClick={() => {
               setIsLogin(!isLogin);
               setFormData({ name: "", email: "", password: "" });
             }}
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            className="text-muted "
             disabled={isLoading}
           >
             {isLogin ? "Não tem uma conta? Criar conta" : "Já tem uma conta? Fazer login"}
-          </button>
+          </Button>
         </div>
       </CardContent>
     </Card>
